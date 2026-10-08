@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: .
+    container_name: gcp-hybrid-ai-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:?GOOGLE_CLOUD_PROJECT is required}
+      - GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION:-global}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.8-flash}
+      - TYPESAFE_API_KEY=${TYPESAFE_API_KEY:?TYPESAFE_API_KEY is required}
+      - TYPESAFE_API_URL=${TYPESAFE_API_URL:-https://api.typesafe.ai/v1/systemone}
+      - TYPESAFE_MODEL=${TYPESAFE_MODEL:-jev-latest}
+      - CONFIDENCE_THRESHOLD=${CONFIDENCE_THRESHOLD:-0.90}
+      - ENABLE_BIGQUERY_TELEMETRY=false
+    restart: unless-stopped
